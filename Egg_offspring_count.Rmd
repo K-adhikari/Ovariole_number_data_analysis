@@ -3,8 +3,7 @@ title: "Egg offspring count data analysis"
 author: "Kiran Adhikari"
 date: "7/3/2025"
 output:
-   html_document:
-     theme:  readable
+   github_document
 ---
 
 
