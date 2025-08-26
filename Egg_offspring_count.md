@@ -18,13 +18,13 @@ library(emmeans)
 
 ``` r
 setwd("~/Documents/Data/Ovariole_number/")
-Data<- read.csv("Egg_offspring_count_data.csv", header=TRUE)
-Data<- Data %>% mutate(across(c('Block','Day', 'Genotype', 'Treatment', 'Tube'), as.factor))
-colnames(Data)[6]<- "Number_of_females"
-colnames(Data)[7]<- "Number_of_eggs"
-colnames(Data)[8]<- "Number_of_offspring"
-Data$Eggs_per_female<- Data$Number_of_eggs/Data$Number_of_females
-Data$Offspring_per_female<- Data$Number_of_offspring/Data$Number_of_females
+Data <- read.csv("Egg_offspring_count_data.csv", header=TRUE)
+Data <- Data %>% mutate(across(c('Block','Day', 'Genotype', 'Treatment', 'Tube'), as.factor))
+colnames(Data)[6] <- "Number_of_females"
+colnames(Data)[7] <- "Number_of_eggs"
+colnames(Data)[8] <- "Number_of_offspring"
+Data$Eggs_per_female <- Data$Number_of_eggs/Data$Number_of_females
+Data$Offspring_per_female <- Data$Number_of_offspring/Data$Number_of_females
 ```
 
 #### Check if any columns have NA values
@@ -45,7 +45,7 @@ apply(Data, 2, function(x) any(is.nan(x)))
 #### Calculate average number of eggs and offsprings per female for each tube across all 5 days
 
 ``` r
-Data_updated<- Data %>% group_by(Genotype, Treatment, Tube, Block) %>% 
+Data_updated <- Data %>% group_by(Genotype, Treatment, Tube, Block) %>% 
         mutate(Total_eggs = sum(Eggs_per_female), Total_offspring = sum(Offspring_per_female)) %>% distinct(Genotype, Treatment, Tube, Total_eggs, Total_offspring)
 ```
 
@@ -55,9 +55,9 @@ Data_updated<- Data %>% group_by(Genotype, Treatment, Tube, Block) %>%
 
 ``` r
 library(ggplot2)
-level_order<- c('RAL 837', 'RAL 397', 'RAL 786', 'RAL 382', 'RAL 395',  'RAL 646', 'RAL 776', 'RAL 129', 'RAL 370', 'RAL 799', 'RAL 486', 'RAL 737',  'RAL 443')
+level_order <- c('RAL 837', 'RAL 397', 'RAL 786', 'RAL 382', 'RAL 395',  'RAL 646', 'RAL 776', 'RAL 129', 'RAL 370', 'RAL 799', 'RAL 486', 'RAL 737',  'RAL 443')
 
-Data_updated$Treatment<- factor(Data_updated$Treatment, levels = c('NI', 'I'))
+Data_updated$Treatment <- factor(Data_updated$Treatment, levels = c('NI', 'I'))
 
 ggplot(Data_updated, aes(x=factor(Genotype, level=level_order), y = Total_eggs, color= Treatment)) + geom_boxplot() +labs (x= "", y= "Average number of eggs per female") + theme_bw() + theme(axis.text.x = element_text(angle = 90))
 ```
@@ -146,7 +146,7 @@ summary_df <- as.data.frame(emm1)
 #### Bringing in the survival data for correlation
 
 ``` r
-Cor<- data.frame(Genotype= c('RAL 837', 'RAL 397', 'RAL 786', 'RAL 382', 'RAL 395',  'RAL 646', 'RAL 776', 'RAL 129', 'RAL 370', 'RAL 799', 'RAL 486', 'RAL 737',  'RAL 443'), Ovariole_number= c(12.05, 13, 13.2, 13.65, 13.9, 14.3, 14.8, 20.05, 22.95, 24.1,24.1, 24.75, 27.4), Survival_proportion= c(0.15, 0.7717391, 0.4583333, 0.4166667, 0.2947368, 0.7752809, 0.6526316, 0.3924051, 0.5280899, 0.6304348, 0.3222222,   0.3974359,0.3974359))
+Cor <- data.frame(Genotype= c('RAL 837', 'RAL 397', 'RAL 786', 'RAL 382', 'RAL 395',  'RAL 646', 'RAL 776', 'RAL 129', 'RAL 370', 'RAL 799', 'RAL 486', 'RAL 737',  'RAL 443'), Ovariole_number= c(12.05, 13, 13.2, 13.65, 13.9, 14.3, 14.8, 20.05, 22.95, 24.1,24.1, 24.75, 27.4), Survival_proportion= c(0.15, 0.7717391, 0.4583333, 0.4166667, 0.2947368, 0.7752809, 0.6526316, 0.3924051, 0.5280899, 0.6304348, 0.3222222,   0.3974359,0.3974359))
 Cor$Genotype<- as.factor(Cor$Genotype)
 ```
 
@@ -201,11 +201,11 @@ ggscatter(Modified_Infected,  x = "emmean", y = "Survival_proportion",
 #### Per day egg production plot
 
 ``` r
-Data_per_day<- Data %>% group_by(Genotype, Treatment, Day, Tube, Block) %>% 
+Data_per_day <- Data %>% group_by(Genotype, Treatment, Day, Tube, Block) %>% 
         mutate(Total = sum(Eggs_per_female)) %>% group_by(Genotype, Treatment, Day, Block) %>% mutate(Mean = mean(Total)) %>% distinct(Genotype, Treatment,Total)
 
-level_order<- c('RAL 837', 'RAL 397', 'RAL 786', 'RAL 382', 'RAL 395',  'RAL 646', 'RAL 776', 'RAL 129', 'RAL 370', 'RAL 799', 'RAL 486', 'RAL 737',  'RAL 443')
-Data_per_day$Treatment<- factor(Data_per_day$Treatment, levels = c('NI', 'I'))
+level_order <- c('RAL 837', 'RAL 397', 'RAL 786', 'RAL 382', 'RAL 395',  'RAL 646', 'RAL 776', 'RAL 129', 'RAL 370', 'RAL 799', 'RAL 486', 'RAL 737',  'RAL 443')
+Data_per_day$Treatment <- factor(Data_per_day$Treatment, levels = c('NI', 'I'))
 
 ggplot(Data_per_day, aes(x=factor(Genotype, level=level_order), y = Total, color= Treatment)) + geom_boxplot() +labs (x= "", y= "Average number of eggs per female") + theme_bw() +facet_grid(rows = vars(Day)) + theme(axis.text.x = element_text(angle = 90))
 ```
