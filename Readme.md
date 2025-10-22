@@ -1,1 +1,1 @@
-This repository consists of data and codes used to generate figures for the manuscript "Ovariole number does not predict reproductive output or trade off with immunity in *Drosophila melanogaster*".
+This repository consists of data and codes used to generate figures for the paper "Ovariole number does not predict reproductive output or trade off with immunity in *Drosophila melanogaster*". The paper can be found [here](https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0333046).
