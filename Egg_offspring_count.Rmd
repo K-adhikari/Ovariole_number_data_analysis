@@ -139,7 +139,7 @@ ggscatter(Modified_Infected,  x = "emmean", y = "Survival_proportion",
 
 #### Per day egg production plot
 ```{r}
-Data_per_day<- Data %>% group_by(Genotype, Treatment, Day, Tube, Block) %>% 
+Data_per_day <- Data %>% group_by(Genotype, Treatment, Day, Tube, Block) %>% 
         mutate(Total = sum(Eggs_per_female)) %>% group_by(Genotype, Treatment, Day, Block) %>% mutate(Mean = mean(Total)) %>% distinct(Genotype, Treatment,Total)
 
 level_order<- c('RAL 837', 'RAL 397', 'RAL 786', 'RAL 382', 'RAL 395',  'RAL 646', 'RAL 776', 'RAL 129', 'RAL 370', 'RAL 799', 'RAL 486', 'RAL 737',  'RAL 443')
